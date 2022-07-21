@@ -1,0 +1,58 @@
+@startuml recipe_tables
+
+entity recipes as "recipes\nレシピ" {
+  + id [PK]
+  --
+  name [料理名] TEXT NOT NULL
+  image_uri [画像URI] TEXT
+  category_id [カテゴリID] INTEGER
+  rate [評価] INTEGER
+  serves [何人前] TEXT
+  comment [コメント] TEXT
+  source  [参考元] TEXT
+  last_updated [更新日]
+}
+entity materials as "materials\n材料" {
+  + id [PK]
+  --
+  name [材料名] TEXT NOT NULL
+}
+entity recipe_materials as "recipe_materials\n材料紐付け用中間テーブル" {
+  + id [PK]
+  --
+  recipe_id INTEGER NOT NULL
+  material_id INTEGER NOT NULL
+  group [グループ] TEXT
+  quantity [分量] TEXT
+}
+entity steps as "steps\n手順" {
+  + id [PK]
+  --
+  recipe_id INTEGER NOT NULL
+  no [順番] INTRGER NOT NULL
+  content [内容] TEXT NOT NULL
+}
+entity categories as "categories\nカテゴリ" {
+  + id [PK]
+  --
+  name [カテゴリ名] TEXT NOT NULL
+}
+entity tags as "tags\nタグ" {
+  + id [PK]
+  --
+  name [タグ名] TEXT NOT NULL
+}
+entity recipe_tags as "recipe_tags\nタグ紐付け用中間テーブル" {
+  + id [PK]
+  --
+  recipe_id INTEGER NOT NULL
+  tag_id INTEGER NOT NULL
+}
+
+recipes ||-l-o{ recipe_materials
+materials ||-u-o{ recipe_materials
+recipes ||-d-o{ steps
+recipes }o-d-|| categories
+recipes ||-r-o{ recipe_tags
+tags ||-u-o{ recipe_tags
+@enduml
