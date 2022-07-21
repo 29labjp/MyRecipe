@@ -7,9 +7,10 @@ entity recipes as "recipes\nレシピ" {
   image_uri [画像URI] TEXT
   category_id [カテゴリID] INTEGER
   rate [評価] INTEGER
+  serves [何人前] TEXT
   comment [コメント] TEXT
   source  [参考元] TEXT
-  updated_at [更新日]
+  last_updated [更新日]
 }
 entity materials as "materials\n材料" {
   + id [PK]
@@ -21,6 +22,8 @@ entity recipe_materials as "recipe_materials\n材料紐付け用中間テーブ�
   --
   recipe_id INTEGER NOT NULL
   material_id INTEGER NOT NULL
+  group [グループ] TEXT
+  quantity [分量] TEXT
 }
 entity steps as "steps\n手順" {
   + id [PK]
@@ -42,8 +45,8 @@ entity tags as "tags\nタグ" {
 entity recipe_tags as "recipe_tags\nタグ紐付け用中間テーブル" {
   + id [PK]
   --
-  recipe_id
-  tag_id
+  recipe_id INTEGER NOT NULL
+  tag_id INTEGER NOT NULL
 }
 
 recipes ||-l-o{ recipe_materials
